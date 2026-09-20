@@ -1,0 +1,28 @@
+# Environments & dependencies
+node_modules/
+.next/
+out/
+build/
+dist/
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+*.sqlite3
+*.db
+.env
+.env.local
+.env.*.local
+venv/
+.venv/
+env/
+ENV/
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log
