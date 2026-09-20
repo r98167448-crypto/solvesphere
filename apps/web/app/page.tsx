@@ -6,7 +6,6 @@ import {
   ArrowRight, ShieldCheck, Cpu, Users, Building, 
   Sparkles, CheckCircle2, MapPin, Activity, Award
 } from 'lucide-react';
-import { AwarenessCarousel } from '@/components/AwarenessCarousel';
 
 export default function LandingPage() {
   const roles = [
@@ -17,13 +16,10 @@ export default function LandingPage() {
   ];
 
   return (
-    <div className="space-y-12 py-4">
-      {/* 1. Rolling Background Awareness Carousel */}
-      <AwarenessCarousel />
-
+    <div className="space-y-12 py-6">
       {/* Hero Header */}
-      <section className="text-center max-w-4xl mx-auto space-y-5">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-semibold tracking-wide">
+      <section className="text-center max-w-4xl mx-auto space-y-5 pt-4">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50/90 border border-emerald-200/80 text-emerald-700 text-xs font-semibold tracking-wide backdrop-blur-sm shadow-xs">
           <Sparkles className="w-3.5 h-3.5" />
           AI-Powered Civic Problem Solving
         </div>
@@ -46,7 +42,7 @@ export default function LandingPage() {
           </Link>
           <Link
             href="/map"
-            className="flex items-center gap-2 px-6 py-3 bg-white hover:bg-slate-50 text-slate-800 font-semibold border border-slate-300 rounded-xl shadow-sm transition hover:scale-[1.02]"
+            className="flex items-center gap-2 px-6 py-3 bg-white/90 backdrop-blur hover:bg-slate-50 text-slate-800 font-semibold border border-slate-300 rounded-xl shadow-sm transition hover:scale-[1.02]"
           >
             <MapPin className="w-4 h-4 text-emerald-600" /> Explore Public Map
           </Link>
@@ -67,7 +63,7 @@ export default function LandingPage() {
               <Link
                 key={i}
                 href={r.link}
-                className="group p-6 bg-white hover:bg-slate-50/80 border border-slate-200 hover:border-emerald-500 rounded-2xl transition duration-200 flex flex-col justify-between shadow-xs"
+                className="group p-6 bg-white/85 backdrop-blur border border-slate-200 hover:border-emerald-500 rounded-2xl transition duration-200 flex flex-col justify-between shadow-xs"
               >
                 <div className="space-y-3">
                   <div className="w-12 h-12 rounded-xl bg-slate-100 group-hover:bg-emerald-100 group-hover:text-emerald-700 text-slate-700 flex items-center justify-center transition">
@@ -87,7 +83,7 @@ export default function LandingPage() {
 
       {/* AI Features Grid */}
       <section className="grid sm:grid-cols-3 gap-6 pt-4">
-        <div className="p-6 bg-white rounded-2xl border border-slate-200 shadow-sm space-y-3">
+        <div className="p-6 bg-white/85 backdrop-blur border border-slate-200 shadow-sm rounded-2xl space-y-3">
           <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center">
             <Cpu className="w-5 h-5" />
           </div>
@@ -97,7 +93,7 @@ export default function LandingPage() {
           </p>
         </div>
 
-        <div className="p-6 bg-white rounded-2xl border border-slate-200 shadow-sm space-y-3">
+        <div className="p-6 bg-white/85 backdrop-blur border border-slate-200 shadow-sm rounded-2xl space-y-3">
           <div className="w-10 h-10 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center">
             <CheckCircle2 className="w-5 h-5" />
           </div>
@@ -107,7 +103,7 @@ export default function LandingPage() {
           </p>
         </div>
 
-        <div className="p-6 bg-white rounded-2xl border border-slate-200 shadow-sm space-y-3">
+        <div className="p-6 bg-white/85 backdrop-blur border border-slate-200 shadow-sm rounded-2xl space-y-3">
           <div className="w-10 h-10 rounded-xl bg-cyan-100 text-cyan-700 flex items-center justify-center">
             <Activity className="w-5 h-5" />
           </div>
