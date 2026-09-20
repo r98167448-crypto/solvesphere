@@ -2,19 +2,22 @@
 
 import React, { useEffect, useState } from 'react';
 
+// Get base path dynamically for GitHub Pages repo deployment
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || '/solvesphere';
+
 const AWARENESS_SLIDES = [
   {
-    image: '/awareness/clean_water.jpg',
+    image: `${BASE_PATH}/awareness/clean_water.jpg`,
     title: 'Clean Water Initiative',
     subtitle: 'Restoring safe municipal drinking water across urban communities through smart sensing & pipe repair.'
   },
   {
-    image: '/awareness/urban_green.jpg',
+    image: `${BASE_PATH}/awareness/urban_green.jpg`,
     title: 'Zero Waste & Green Urban Corridors',
     subtitle: 'Citizen volunteering, circular waste segregation, and tree planting to revitalize public spaces.'
   },
   {
-    image: '/awareness/smart_roads.jpg',
+    image: `${BASE_PATH}/awareness/smart_roads.jpg`,
     title: 'Safe Roads & Smart Infrastructure',
     subtitle: 'Eliminating critical potholes, installing solar street illumination, and ensuring pedestrian safety.'
   }
@@ -36,14 +39,14 @@ export function AwarenessBackground() {
         <div
           key={slide.title}
           className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-            index === currentIndex ? 'opacity-20' : 'opacity-0'
+            index === currentIndex ? 'opacity-25' : 'opacity-0'
           }`}
           style={{
             backgroundImage: `url(${slide.image})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
-            filter: 'blur(1px)',
+            filter: 'blur(0.5px)',
           }}
         />
       ))}
