@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { apiFetch, setAuthSession } from '@/lib/api';
 import { UserPlus, AlertCircle } from 'lucide-react';
 
-export default function SignupPage() {
+function SignupForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const defaultRole = searchParams.get('role') || 'citizen';
@@ -149,5 +149,13 @@ export default function SignupPage() {
         </Link>
       </p>
     </div>
+  );
+}
+
+export default function SignupPage() {
+  return (
+    <Suspense fallback={<div className="text-center py-12 text-slate-400">Loading signup portal...</div>}>
+      <SignupForm />
+    </Suspense>
   );
 }

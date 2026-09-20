@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { apiFetch, setAuthSession } from '@/lib/api';
@@ -56,7 +56,7 @@ const DEPARTMENTS = [
   },
 ];
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const deptQuery = searchParams.get('dept');
@@ -114,7 +114,6 @@ export default function LoginPage() {
 
   return (
     <div className="max-w-4xl mx-auto my-8 space-y-8">
-      {/* 2. Isolated Department Picker Header */}
       <div className="text-center space-y-2">
         <h1 className="text-3xl font-black text-slate-900">Institutional Sign-In Portal</h1>
         <p className="text-xs sm:text-sm text-slate-500">
@@ -214,5 +213,13 @@ export default function LoginPage() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="text-center py-12 text-slate-400">Loading sign in portal...</div>}>
+      <LoginForm />
+    </Suspense>
   );
 }
