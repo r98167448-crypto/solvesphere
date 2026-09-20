@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgis/postgis:15-3.3
+    container_name: solvesphere-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: solvesphere
+      POSTGRES_PASSWORD: solvesphere123
+      POSTGRES_DB: solvesphere
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  core-api:
+    build:
+      context: ./services/core-api
+    container_name: solvesphere-core-api
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://solvesphere:solvesphere123@postgres:5432/solvesphere
+      JWT_SECRET: solvesphere_jwt_secret_key_change_in_production_2026!
+      JWT_REFRESH_SECRET: solvesphere_refresh_secret_key_change_in_production_2026!
+      AI_SERVICE_URL: http://ai-service:8001
+    depends_on:
+      - postgres
+
+  ai-service:
+    build:
+      context: ./services/ai-service
+    container_name: solvesphere-ai-service
+    restart: always
+    ports:
+      - "8001:8001"
+
+  web:
+    build:
+      context: ./apps/web
+    container_name: solvesphere-web
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_CORE_API_URL: http://localhost:8000
+      NEXT_PUBLIC_AI_SERVICE_URL: http://localhost:8001
+    depends_on:
+      - core-api
+
+volumes:
+  pgdata:
