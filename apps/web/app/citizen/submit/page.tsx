@@ -1,28 +1,52 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { apiFetch } from '@/lib/api';
-import { Send, MapPin, Upload, Sparkles, CheckCircle2 } from 'lucide-react';
+import { Send, MapPin, Upload, Sparkles, CheckCircle2, Image as ImageIcon, X } from 'lucide-react';
 
 export default function SubmitChallengePage() {
   const router = useRouter();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('');
   const [lat, setLat] = useState<number | undefined>(12.9716);
   const [lng, setLng] = useState<number | undefined>(77.5946);
   const [district, setDistrict] = useState('Bengaluru Central');
-  const [mediaUrl, setMediaUrl] = useState('');
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+
+  // 3. Directly handle file upload instead of typing a URL
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        alert('File is too large. Please select an image under 5MB.');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const removeImage = () => {
+    setImagePreview(null);
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const mediaList = mediaUrl.trim() ? [mediaUrl.trim()] : [];
+      // Send base64 image data URI directly so image is immediately visible & stored
+      const mediaList = imagePreview ? [imagePreview] : [];
       await apiFetch('/challenges', {
         method: 'POST',
         body: JSON.stringify({
@@ -55,7 +79,7 @@ export default function SubmitChallengePage() {
         </div>
         <h1 className="text-2xl font-bold text-slate-900">Report a Local Societal Challenge</h1>
         <p className="text-xs text-slate-500">
-          Our AI microservice will automatically classify domains, estimate priority severity, and check for duplicates.
+          Upload photo evidence directly from your device. Our AI microservice will automatically classify domains and triage severity.
         </p>
       </div>
 
@@ -89,6 +113,46 @@ export default function SubmitChallengePage() {
               className="w-full px-3 py-2 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500"
               placeholder="Describe the exact issue, approximate population affected, duration, and safety hazards..."
             />
+          </div>
+
+          {/* Direct Image File Upload */}
+          <div>
+            <label className="block text-xs font-semibold text-slate-700 uppercase mb-1">
+              Attach Photo Evidence (Direct Upload)
+            </label>
+            
+            {imagePreview ? (
+              <div className="relative rounded-2xl overflow-hidden border border-slate-200 w-full h-48 bg-slate-50 flex items-center justify-center">
+                <img src={imagePreview} alt="Evidence preview" className="w-full h-full object-cover" />
+                <button
+                  type="button"
+                  onClick={removeImage}
+                  className="absolute top-2 right-2 p-1.5 bg-slate-900/80 hover:bg-slate-900 text-white rounded-full transition"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            ) : (
+              <div
+                onClick={() => fileInputRef.current?.click()}
+                className="border-2 border-dashed border-slate-300 hover:border-emerald-500 hover:bg-emerald-50/40 rounded-2xl p-6 text-center cursor-pointer transition flex flex-col items-center justify-center space-y-2"
+              >
+                <div className="p-3 bg-slate-100 rounded-full text-slate-600">
+                  <ImageIcon className="w-6 h-6" />
+                </div>
+                <div className="text-xs text-slate-700 font-semibold">
+                  Click to browse and upload photo evidence
+                </div>
+                <p className="text-[11px] text-slate-400">Supports JPG, PNG, WEBP up to 5MB</p>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  className="hidden"
+                />
+              </div>
+            )}
           </div>
 
           <div className="grid grid-cols-2 gap-4">
@@ -143,24 +207,13 @@ export default function SubmitChallengePage() {
             </div>
           </div>
 
-          <div>
-            <label className="block text-xs font-semibold text-slate-700 uppercase mb-1">Photo / Media URL (Optional)</label>
-            <input
-              type="url"
-              value={mediaUrl}
-              onChange={(e) => setMediaUrl(e.target.value)}
-              className="w-full px-3 py-2 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500"
-              placeholder="https://images.unsplash.com/..."
-            />
-          </div>
-
           <button
             type="submit"
             disabled={loading}
             className="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-semibold rounded-xl transition flex items-center justify-center gap-2 shadow-sm"
           >
             <Send className="w-4 h-4" />
-            {loading ? 'Submitting & Classifying with AI...' : 'Submit Challenge'}
+            {loading ? 'Uploading & Classifying with AI...' : 'Submit Challenge'}
           </button>
         </form>
       )}
