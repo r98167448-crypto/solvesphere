@@ -48,14 +48,14 @@ def seed():
     
     # Add sample challenges
     c1 = Challenge(
-        title="Severe Drinking Water Contamination & Broken Pipeline in Ward 12",
-        description="Water supply contaminated with sewage runoff due to underground fracture near Gandhi Nagar intersection. Over 400 households affected with acute water shortage and water-borne illness risk.",
+        title="Severe Drinking Water Contamination & Pipeline Leakage in Harmu Ward",
+        description="Water supply contaminated with drainage runoff due to underground pipeline fracture near Harmu Road intersection. Over 400 households affected with acute water shortage and water-borne illness risk.",
         category="Water & Sanitation",
         domain="Water Infrastructure",
         sub_domain="Distribution & Contamination Control",
-        lat=12.9716,
-        lng=77.5946,
-        district="Bengaluru Urban",
+        lat=23.3441,
+        lng=85.3096,
+        district="Ranchi, Jharkhand",
         priority="high",
         status="verified",
         submitted_by=citizen.id,
@@ -64,14 +64,14 @@ def seed():
     )
     
     c2 = Challenge(
-        title="Overflowing Solid Waste & Plastic Dumping near Primary School",
-        description="Public bins uncollected for 2 weeks. Stray animals scattering plastic and organic waste blocking pedestrian walkway and creating health hazards for school children.",
+        title="Overflowing Solid Waste & Coal-Dust Runoff near Primary School",
+        description="Public bins uncollected for 2 weeks near mining fringe area. Plastic and particulate waste accumulating along student walkways creating severe respiratory and health hazards.",
         category="Environment & Waste",
         domain="Waste Management",
         sub_domain="Solid Waste Collection",
-        lat=12.9352,
-        lng=77.6245,
-        district="Bengaluru South",
+        lat=23.7957,
+        lng=86.4304,
+        district="Dhanbad, Jharkhand",
         priority="medium",
         status="pending",
         submitted_by=school.id,
@@ -79,14 +79,14 @@ def seed():
     )
 
     c3 = Challenge(
-        title="Deep Dangerous Potholes on High Traffic Arterial Road",
-        description="Several 2-foot deep potholes formed after heavy monsoon rains causing multiple two-wheeler accidents and severe peak-hour bottlenecks.",
+        title="Deep Dangerous Potholes on High Traffic Industrial Highway",
+        description="Several 2-foot deep potholes formed after heavy monsoon rains along NH-33 industrial corridor causing heavy freight delays and two-wheeler accidents.",
         category="Urban Infrastructure",
         domain="Roads & Mobility",
         sub_domain="Pothole Repair & Surface Restoration",
-        lat=13.0033,
-        lng=77.5692,
-        district="Bengaluru North",
+        lat=22.8046,
+        lng=86.2029,
+        district="Jamshedpur (East Singhbhum), Jharkhand",
         priority="high",
         status="assigned",
         submitted_by=citizen.id,

@@ -12,9 +12,9 @@ export default function SubmitChallengePage() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('');
-  const [lat, setLat] = useState<number | undefined>(12.9716);
-  const [lng, setLng] = useState<number | undefined>(77.5946);
-  const [district, setDistrict] = useState('Bengaluru Central');
+  const [lat, setLat] = useState<number | undefined>(23.3441);
+  const [lng, setLng] = useState<number | undefined>(85.3096);
+  const [district, setDistrict] = useState('Ranchi, Jharkhand');
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -179,7 +179,7 @@ export default function SubmitChallengePage() {
                 value={district}
                 onChange={(e) => setDistrict(e.target.value)}
                 className="w-full px-3 py-2 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500"
-                placeholder="e.g. Bengaluru Central"
+                placeholder="e.g. Ranchi, Jharkhand"
               />
             </div>
           </div>

@@ -21,13 +21,13 @@ interface MapWrapperProps {
 }
 
 export default function MapWrapper({ challenges }: MapWrapperProps) {
-  // Center default to first challenge location or Bengaluru / Central
-  const defaultCenter: [number, number] = [12.9716, 77.5946];
+  // Center default to Jharkhand (Ranchi central node)
+  const defaultCenter: [number, number] = [23.3441, 85.3096];
 
   return (
     <MapContainer
       center={defaultCenter}
-      zoom={12}
+      zoom={8}
       scrollWheelZoom={true}
       className="w-full h-full"
     >
