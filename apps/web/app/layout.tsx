@@ -32,10 +32,7 @@ export default function RootLayout({
           {children}
         </main>
         <footer className="border-t border-slate-200/80 bg-white/70 backdrop-blur py-6 text-center text-sm text-slate-500 relative z-10">
-          <p>© {new Date().getFullYear()} SolveSphere. Built with Next.js, FastAPI & AI.</p>
-          <p className="mt-1">
-            Author: <a href="https://github.com/r98167448-crypto" target="_blank" rel="noreferrer" className="text-emerald-600 hover:underline">Vishal R (GitHub)</a> | <a href="https://www.linkedin.com/in/vishal-r-63ab88394/" target="_blank" rel="noreferrer" className="text-emerald-600 hover:underline">LinkedIn</a>
-          </p>
+          <p>© 2026 SolveSphere</p>
         </footer>
       </body>
     </html>
