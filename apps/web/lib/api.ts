@@ -138,22 +138,27 @@ export function clearAuthSession() {
   }
 }
 
+const CHALLENGES_STORAGE_KEY = 'solvesphere_challenges_v2_jharkhand';
+
 function getStoredChallenges(): any[] {
   if (typeof window !== 'undefined') {
-    const local = localStorage.getItem('solvesphere_challenges');
+    const local = localStorage.getItem(CHALLENGES_STORAGE_KEY);
     if (local) {
       try {
-        return JSON.parse(local);
+        const parsed = JSON.parse(local);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed;
+        }
       } catch (e) {}
     }
-    localStorage.setItem('solvesphere_challenges', JSON.stringify(DEMO_CHALLENGES));
+    localStorage.setItem(CHALLENGES_STORAGE_KEY, JSON.stringify(DEMO_CHALLENGES));
   }
   return DEMO_CHALLENGES;
 }
 
 function saveStoredChallenges(items: any[]) {
   if (typeof window !== 'undefined') {
-    localStorage.setItem('solvesphere_challenges', JSON.stringify(items));
+    localStorage.setItem(CHALLENGES_STORAGE_KEY, JSON.stringify(items));
   }
 }
 
@@ -231,22 +236,31 @@ export async function apiFetch(endpoint: string, options: RequestInit = {}) {
   // 3. Analytics Dashboard
   if (endpoint.startsWith('/analytics/dashboard')) {
     const challenges = getStoredChallenges();
+    const byCategory: Record<string, number> = {};
+    const byDistrict: Record<string, number> = {};
+
+    challenges.forEach((c) => {
+      const cat = c.category || 'General';
+      byCategory[cat] = (byCategory[cat] || 0) + 1;
+
+      const dist = c.district || 'Ranchi, Jharkhand';
+      byDistrict[dist] = (byDistrict[dist] || 0) + 1;
+    });
+
+    const total = challenges.length;
+    const completed = challenges.filter(c => c.status === 'completed').length;
+    const verified = challenges.filter(c => c.status === 'verified').length;
+    const inProgress = challenges.filter(c => ['assigned', 'in_progress'].includes(c.status)).length;
+    const resolutionRate = total > 0 ? Number(((completed / total) * 100).toFixed(1)) : 0;
+
     return {
-      total: challenges.length,
-      verified: challenges.filter(c => c.status === 'verified').length,
-      in_progress: challenges.filter(c => ['assigned', 'in_progress'].includes(c.status)).length,
-      completed: challenges.filter(c => c.status === 'completed').length,
-      by_category: {
-        "Water & Sanitation": 1,
-        "Environment & Waste": 1,
-        "Urban Infrastructure": 1
-      },
-      by_district: {
-        "Ranchi": 1,
-        "Dhanbad": 1,
-        "East Singhbhum (Jamshedpur)": 1
-      },
-      resolution_rate: 33.3
+      total,
+      verified,
+      in_progress: inProgress,
+      completed,
+      by_category: byCategory,
+      by_district: byDistrict,
+      resolution_rate: resolutionRate
     };
   }
 
